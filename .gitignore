@@ -1,0 +1,46 @@
+# Ignore frontend_old completely
+frontend_old/
+
+# Node.js dependencies
+backend/node_modules/
+frontend/node_modules/
+
+# Environment variables
+backend/.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor & IDE files
+.vscode/
+*.swp
+*.swo
+.idea/
+
+# Build files
+dist/
+build/
+
+# Package lock files
+backend/package-lock.json
+frontend/package-lock.json
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# SQL & Schema files (if you don’t want to track them)
+backend/queries.sql
+backend/table_schema.txt
+
+# Windows batch scripts (optional)
+folder_create.bat
