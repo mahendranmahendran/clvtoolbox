@@ -1,3 +1,4 @@
+// path: root-folder/frontend/src/components/ChartsWidgetsDashboard.jsx
 import { useEffect, useState } from "react";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Tooltip, ResponsiveContainer, XAxis, YAxis, Legend } from "recharts";
 

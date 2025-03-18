@@ -44,3 +44,6 @@ backend/table_schema.txt
 
 # Windows batch scripts (optional)
 folder_create.bat
+
+
+backend/csvtosupa.js
