@@ -52,3 +52,4 @@ const ChartsWidgetsDashboards = ({ client_code }) => {
 };
 
 export default ChartsWidgetsDashboards;
+// Path: root-folder/frontend/src/components/ClientDashboard.jsx 
