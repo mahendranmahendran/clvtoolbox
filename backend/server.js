@@ -214,6 +214,18 @@ app.post("/api/events", eventController.trackEvent);
 app.get("/api/events", eventController.getAllEvents);
 app.get("/api/events/:id", eventController.getEventById);
 
+app.get("/api/campaign-metrics", async (req, res) => {
+    const { client_code } = req.query;
+    if (!client_code) return res.status(400).json({ error: "Client Code is required" });
+
+    const { data, error } = await supabase.rpc("get_campaign_performance", { client_code });
+    if (error) return res.status(500).json({ error: error.message });
+
+    res.json(data);
+});
+
+
+
 // ============================== Server Startup ==============================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
