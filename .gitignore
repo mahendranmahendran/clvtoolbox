@@ -37,6 +37,7 @@ frontend/package-lock.json
 *.tmp
 *.bak
 *.swp
+*.csv
 
 # SQL & Schema files (if you don’t want to track them)
 backend/queries.sql
