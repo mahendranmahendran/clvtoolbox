@@ -1,4 +1,3 @@
-//backend/server.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -94,30 +93,38 @@ const eventController = {
 };
 
 // ============================== Routes ==============================
-app.post("/api/campaigns", campaignController.createCampaign);
-app.get("/api/campaigns", campaignController.getAllCampaigns);
-app.get("/api/campaigns/:id", campaignController.getCampaignById);
-app.put("/api/campaigns/:id", campaignController.updateCampaign);
-app.delete("/api/campaigns/:id", campaignController.deleteCampaign);
+app.post("/api/v1/campaigns", campaignController.createCampaign);
+app.get("/api/v1/campaigns", campaignController.getAllCampaigns);
+app.get("/api/v1/campaigns/:id", campaignController.getCampaignById);
+app.put("/api/v1/campaigns/:id", campaignController.updateCampaign);
+app.delete("/api/v1/campaigns/:id", campaignController.deleteCampaign);
 
-app.post("/api/events", eventController.trackEvent);
-app.get("/api/events", eventController.getAllEvents);
-app.get("/api/events/:id", eventController.getEventById);
+app.post("/api/v1/events", eventController.trackEvent);
+app.get("/api/v1/events", eventController.getAllEvents);
+app.get("/api/v1/events/:id", eventController.getEventById);
 
-// Fetch Campaign Metrics from Materialized View (with Fallback)
-app.get("/api/campaign-metrics", async (req, res) => {
-    const { client_code } = req.query;
-    if (!client_code) return res.status(400).json({ error: "Client Code is required" });
+// Fetch Campaign Metrics from Materialized View (No Fallback)
+app.get("/api/v1/campaign-metrics", async (req, res) => {
+    const { client_code, date_event } = req.query;
 
-    let { data, error } = await supabase.from("events_metrics_mv").select("*").eq("client_code", client_code);
-    
-    if (error || !data.length) {
-        console.warn("Falling back to events_metrics table");
-        ({ data, error } = await supabase.from("events_metrics").select("*").eq("client_code", client_code));
+    if (!client_code) {
+        return res.status(400).json({ error: "Client Code is required" });
     }
 
-    if (error) return res.status(500).json({ error: error.message });
-    res.json(data);
+    let query = supabase
+        .from("events_metrics_mv")
+        .select("client_code, metric_name, metric_value, metric_type, chart, metric_category, sequence, date_event")
+        .eq("client_code", client_code);
+
+    if (date_event) query = query.eq("date_event", date_event);
+
+    const { data, error } = await query;
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.json({ success: true, data });
 });
 
 // ============================== Server Startup ==============================

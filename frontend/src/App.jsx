@@ -18,7 +18,7 @@ const App = () => {
         <div className="main-content" style={{ flexGrow: 1, padding: "0px", display: "flex", flexDirection: "column" }}>
         <Header />
           <div style={{ flexGrow: 1, marginTop: "0px" }}>
-            <Routes>``
+            <Routes>
               <Route path="/" element={<Snapshot />} />
               <Route path="/metrics" element={<Metrics />} />
               <Route path="/campaigns" element={<Campaigns />} />
